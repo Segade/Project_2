@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.GregorianCalendar;
 
 
 public class UpdateTeacher extends JFrame implements ActionListener {
@@ -65,7 +66,6 @@ searchButton.addActionListener(this);
          searchPanel.add(searchTextField);
          searchPanel.add(searchButton);
 
-generateComboBoxes();
 
          dobPanel.add(dayComboBox);
          dobPanel.add(slashLabel1);
@@ -127,20 +127,31 @@ break;
     }// end action performed
 
 // ********
-public void generateComboBoxes()
+public void setComboBoxes(String day, String month, String year)
 {
 
     dayComboBox.addItem("Day");;
-    for (int x=1;x<32;x++)
+    for (int x=1;x<32;x++) {
         dayComboBox.addItem(Integer.toString(x));
+        if (day.equals(Integer.toString(x)))
+dayComboBox.setSelectedIndex(x);
+    } // end for day
 
     monthComboBox.addItem("Month");
-    for (int x=1;x<13;x++)
+    for (int x=1;x<13;x++) {
         monthComboBox.addItem(Integer.toString(x));
+        if (month.equals(Integer.toString(x)))
+            monthComboBox.setSelectedIndex(x);
+    } // end for month
 
+int y = 0;
     yearComboBox.addItem("Year");;
-    for (int x=2021;x>1910;x--)
+    for (int x=2021;x>1910;x--) {
         yearComboBox.addItem(Integer.toString(x));
+        y++;
+        if (year.equals(Integer.toString(x)))
+yearComboBox.setSelectedIndex(y);
+    } // end for year
 
 } // end generate combo boxes
 
@@ -203,8 +214,17 @@ for (int x=0; x<allTeachers.size(); x++){
  addressTextField.setText(t.getAddress());
  townTextField.setText(t.getTown());
  countyTextField.setText(t.getCounty());
+ int year =t.getDob().get(GregorianCalendar.YEAR);
+        int month =t.getDob().get(GregorianCalendar.MONTH);
+        int day =t.getDob().get(GregorianCalendar.DATE);
+         setComboBoxes(Integer.toString(day),  Integer.toString(month), Integer.toString(year));
 
+         char gender = t.getGender();
+         if (gender == 'M')
+             maleRadioButton.setSelected(true);
+         else
+             femaleRadioButton.setSelected(true);
 
-
+         departmentTextField.setText(t.getDepartment());
     } // end display
 } // end class

@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 
 public class AddTeacher extends JFrame implements ActionListener{
     JFrame addTeacherFrame = new JFrame("Add teacher");
-    JPanel formPanel = new JPanel(new GridLayout(8,2, 5,5));
+    JPanel formPanel = new JPanel(new GridLayout(10,2, 5,5));
     JPanel buttonsPanel = new JPanel(new BorderLayout(10, 10));
     JPanel dobPanel = new JPanel(new FlowLayout());
     JPanel genderPanel = new JPanel(new FlowLayout());
@@ -25,6 +25,8 @@ public class AddTeacher extends JFrame implements ActionListener{
     JLabel genderLabel = new JLabel("Gender:");
     JLabel departmentLabel = new JLabel("Department:");
     JLabel blank = new JLabel("   ");
+    JLabel phoneLabel = new JLabel("Phone:");
+    JLabel emailLabel = new JLabel("Email:");
 
     JTextField nameTextField = new JTextField(20);
     JTextField surnameTextField = new JTextField(30);
@@ -32,6 +34,8 @@ public class AddTeacher extends JFrame implements ActionListener{
     JTextField townTextField = new JTextField(20);
     JTextField countyTextField = new JTextField(20);
     JTextField departmentTextField = new JTextField(25);
+    JTextField phoneTextField = new JTextField(12);
+    JTextField emailTextField = new JTextField(30);
 
     JComboBox dayComboBox = new JComboBox();
     JComboBox monthComboBox = new JComboBox();
@@ -84,6 +88,10 @@ genderGroup.add(femaleRadioButton);
         formPanel.add(genderPanel);
         formPanel.add(departmentLabel);
         formPanel.add(departmentTextField);
+        formPanel.add(phoneLabel);
+        formPanel.add(phoneTextField);
+        formPanel.add(emailLabel);
+        formPanel.add(emailTextField);
 
 
 
@@ -110,7 +118,11 @@ genderGroup.add(femaleRadioButton);
         switch(option)
         {
             case "Add":
-                String texto =validateForm();
+                String myDay = (String) dayComboBox.getSelectedItem();
+                String myMonth = (String) monthComboBox.getSelectedItem();
+                String myYear = (String)yearComboBox.getSelectedItem();
+
+                String texto = Validator.validateTeacherForm(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(),townTextField.getText(), countyTextField.getText(, myDay, myMonth, myYear,
                 if (texto.equals("") )
                     saveTeacher();
                 else
@@ -132,9 +144,12 @@ genderGroup.add(femaleRadioButton);
         String address = addressTextField.getText();
         String town = townTextField.getText();
         String county = countyTextField.getText();
-        String email = "ivan@segade.carou";
-        String phone = "00456987123";
-        GregorianCalendar dob = new GregorianCalendar(1981,10,21);
+        String email = emailTextField.getText();
+        String phone = phoneTextField.getText();
+        String myDay = (String) dayComboBox.getSelectedItem();
+        String myMonth = (String) monthComboBox.getSelectedItem();
+        String myYear = (String)yearComboBox.getSelectedItem();
+         GregorianCalendar dob = new GregorianCalendar(Integer.parseInt(myYear), Integer.parseInt(myMonth), Integer.parseInt(myDay));
         String department = departmentTextField.getText();
         char gender = 'X';
 
@@ -168,53 +183,7 @@ allTeachers.add(t);
 JOptionPane.showMessageDialog(null, "Teacher added successfuly\n" + t, "Add success", JOptionPane.INFORMATION_MESSAGE);
     } // end save teacher
 
-    private  String validateForm(){
-        String error = "";
-        String name = nameTextField.getText();
-        String surname = surnameTextField.getText();
-        String address = addressTextField.getText();
-        String town = townTextField.getText();
-        String county = countyTextField.getText();
 
-        if (name.equals("") ||  isLetter(name))
-            error ="Enter a valid name";
-
-        if (surname.equals("") || isLetter(surname))
-            error +="Enter a valid surname";
-
-        if (address.equals(""))
-            error +="\nEnter a address";
-
-        if (town.equals("") || isLetter(town))
-            error +="\nEnter a valid town";
-
-        if (county.equals("") || isLetter(county))
-            error +="\nEnter a county";
-
-        String myDay = (String) dayComboBox.getSelectedItem();
-        String myMonth = (String) monthComboBox.getSelectedItem();
-        String myYear = (String) yearComboBox.getSelectedItem();
-
-        if (!checkDate(myDay, myMonth, myYear))
-            error += "\nEnter a valid Date of Birth";
-        return error;
-    } // end validate form
-
-    private boolean isLetter(String enter){
-        int x = 0;
-
-        while (x<enter.length()){
-            if (Character.isDigit(enter.charAt(x)))
-                x = enter.length() +1;
-            else
-                x++;
-        } // end while
-
-        if (x>enter.length())
-            return true;
-
-        return false;
-    } // end is letter
 
 
     public void generateComboBoxes()
@@ -234,40 +203,6 @@ JOptionPane.showMessageDialog(null, "Teacher added successfuly\n" + t, "Add succ
 
     } // end generate combo boxes
 
-    private boolean checkDate(String myDay, String myMonth, String myYear) {
-        boolean correct = true;
-
-        if (!myDay.equals("Day") && !myMonth.equals("Month") && !myYear.equals("Year"))
-        {
-            int month = Integer.parseInt(myMonth);
-            int day =Integer.parseInt(myDay);
-            int year = Integer.parseInt(myYear);
-
-            switch (month) {
-                case 4:
-                case 6:
-                case 9:
-                case 11:
-                    if (day == 31)
-                        correct = false;
-
-                    break;
-
-                case 2:
-
-                    if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
-                        if (day > 29)
-                            correct = false;
-                    }else
-                    if (day >28)
-                        correct = false;
-
-            }// end switch
-        } else
-            correct = false;
-
-        return correct;
-    } //end check date
 
 
 

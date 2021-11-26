@@ -1,28 +1,85 @@
 import javax.swing.*;
+import java.util.GregorianCalendar;
 
 public class Validator {
-/*
-    public void pass();{
 
-        JOptionPane.showMessageDialog(null, "", "good", JOptionPane.PLAIN_MESSAGE);;
-    } // end pass
+    public static   String validateTeacherForm(String name, String surname, String address, String town, String county, String myDay, String myMonth, String myYear,  String gender, String phone, String email, String department){
+                                               String error = "";
 
 
-    public static void  ComboBoxes()
-    {
+        if (name.equals("") ||  !isLetter(name))
+            error ="Enter a valid name";
 
-        dayComboBox.addItem("Day");;
-        for (int x=1;x<32;x++)
-            dayComboBox.addItem(Integer.toString(x));
+        if (surname.equals("") || !isLetter(surname))
+            error +="Enter a valid surname";
 
-        monthComboBox.addItem("Month");
-        for (int x=1;x<13;x++)
-            monthComboBox.addItem(Integer.toString(x));
+        if (address.equals(""))
+            error +="\nEnter a address";
 
-        yearComboBox.addItem("Year");;
-        for (int x=2021;x>1910;x--)
-            yearComboBox.addItem(Integer.toString(x));
+        if (town.equals("") || !isLetter(town))
+            error +="\nEnter a valid town";
 
-    } // end generate combo boxes
-*/
+        if (county.equals("") || !isLetter(county))
+            error +="\nEnter a county";
+
+
+        if (!checkDate(myDay, myMonth, myYear))
+            error += "\nEnter a valid Date of Birth";
+        return error;
+    } // end validate form
+
+
+    public static  boolean isLetter(String enter){
+        int x = 0;
+
+        while (x<enter.length()){
+            if (Character.isDigit(enter.charAt(x)))
+                x = enter.length() +1;
+            else
+                x++;
+        } // end while
+
+        if (x>enter.length())
+            return false;
+
+        return true;
+    } // end is letter
+
+    public static  boolean checkDate(String myDay, String myMonth, String myYear) {
+        boolean correct = true;
+
+        if (!myDay.equals("Day") && !myMonth.equals("Month") && !myYear.equals("Year"))
+        {
+            int month = Integer.parseInt(myMonth);
+            int day =Integer.parseInt(myDay);
+            int year = Integer.parseInt(myYear);
+
+            switch (month) {
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    if (day == 31)
+                        correct = false;
+
+                    break;
+
+                case 2:
+
+                    if ((year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0))) {
+                        if (day > 29)
+                            correct = false;
+                    }else
+                    if (day >28)
+                        correct = false;
+
+            }// end switch
+        } else
+            correct = false;
+
+        return correct;
+    } //end check date
+
+
+
 } // end class
