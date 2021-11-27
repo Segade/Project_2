@@ -117,7 +117,7 @@ cancelButton.addActionListener(this);
 updateTeacherFrame.add(buttonsPanel, BorderLayout.SOUTH );
 formPanel.setVisible(false);
 updateTeacherFrame.setVisible(true);
-
+updateButton.setVisible(false) ;
 open();
      } // end constructor
 
@@ -128,7 +128,7 @@ open();
         {
             case "Search":
 search();
-                formPanel.setVisible(true);
+
 break;
             case "Update":
                 String myDay = (String) dayComboBox.getSelectedItem();
@@ -146,7 +146,8 @@ break;
                     saveTeacher();
                 else
                     JOptionPane.showMessageDialog(null, texto , "Error", JOptionPane.ERROR_MESSAGE);
-
+formPanel.setVisible(false);
+updateButton.setVisible(false);
                 break;
             case "Cancel":
                 updateTeacherFrame.dispose();
@@ -228,12 +229,15 @@ while (x<allTeachers.size()){
 
     if (t.getId().equalsIgnoreCase(id)) {
         display(t);
-        x= allTeachers.size()+1;
+x = allTeachers.size() +2;
     }
 x++;
      } // end while
-
-
+if (x == allTeachers.size()) {
+    JOptionPane.showMessageDialog(null, "No match", "Error", JOptionPane.ERROR_MESSAGE);
+    formPanel.setVisible(false);
+    updateButton.setVisible(false);
+}
     } // end search
 
 
@@ -255,7 +259,11 @@ x++;
              femaleRadioButton.setSelected(true);
 
          departmentTextField.setText(t.getDepartment());
+
+         formPanel.setVisible(true);
+         updateButton.setVisible(true);
     } // end display
+
 
     private void saveTeacher()
     {
@@ -272,9 +280,9 @@ x++;
         else
             gender = 'F';
 
+int y = 0;
 
-
-        for (int x=0;x<allTeachers.size();x++){
+for (int x=0; x<allTeachers.size() ;x++){
 
 if (allTeachers.get(x).getId().equals(t.getId() )){
     allTeachers.get(x).setName(nameTextField.getText());
@@ -286,9 +294,10 @@ allTeachers.get(x).setTown(townTextField.getText());
     allTeachers.get(x).setDob(dob);
      allTeachers.get(x).setPhone(phoneTextField.getText());
      allTeachers.get(x).setEmail(emailTextField.getText());
-
+y = x;
 } // end if
-    } // end while
+
+        } // end for
 
         File outFile  = new File("teachers.data");
         try{
@@ -302,7 +311,7 @@ allTeachers.get(x).setTown(townTextField.getText());
 
             outStream.close();
 
-
+            JOptionPane.showMessageDialog(null, "Teacher updated successfuly\n" + allTeachers.get(y).toString(), "Update success", JOptionPane.INFORMATION_MESSAGE);
         }
         catch(FileNotFoundException fnfe) {
             fnfe.printStackTrace();
@@ -314,7 +323,7 @@ allTeachers.get(x).setTown(townTextField.getText());
             JOptionPane.showMessageDialog(null,"File could not be written!",
                     "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
         }
-        JOptionPane.showMessageDialog(null, "Teacher added successfuly\n" + t, "Add success", JOptionPane.INFORMATION_MESSAGE);
+
     } // end save teacher
 
 

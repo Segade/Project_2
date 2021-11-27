@@ -83,6 +83,7 @@ success = true;
     } // end main
 
 
+    
     public void actionPerformed  (ActionEvent e)
     {
         String option = e.getActionCommand();
@@ -100,8 +101,8 @@ if (exit == JOptionPane.YES_OPTION)
              case "Update/Delete teacher": UpdateTeacher updateTeacher = new UpdateTeacher();
                  break;
 
-            //case "Add course": AddCourse addCourse = new AddCourse();
-//                break;
+             case "Add course": AddCourse addCourse = new AddCourse();
+                 break;
 
             //case "Update/Delete course": UpdateCourse updateCourse = new UpdateCourse();
 //                break;
