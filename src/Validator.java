@@ -3,7 +3,7 @@ import java.util.GregorianCalendar;
 
 public class Validator {
 
-    public static   String validateTeacherForm(String name, String surname, String address, String town, String county, String myDay, String myMonth, String myYear,  String gender, String phone, String email, String department){
+    public static   String validateTeacherForm(String name, String surname, String address, String town, String county, String myDay, String myMonth, String myYear, String phone, String email, String department){
                                                String error = "";
 
 

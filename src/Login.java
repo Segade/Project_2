@@ -1,12 +1,14 @@
+import javax.security.auth.login.AppConfigurationEntry;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
 public class Login extends JDialog implements ActionListener{
 
+
+JFrame loginFrame = new JFrame("Login Access");
+
     JPanel formPanel = new JPanel(new GridLayout(3,2));
-
-
 JLabel idLabel = new JLabel("ID:");
 JLabel passwordLabel = new JLabel("Password:");
 JLabel blanckLabel = new JLabel(" ");
@@ -15,15 +17,13 @@ JLabel blanckLabel = new JLabel(" ");
 JPasswordField passwordField = new JPasswordField(20);
 
 JButton loginButton = new JButton("Login");
-Boolean succes = false;
 
-int attempts = 0;
-
-Login(JFrame loginFrame )
+public Login (JFrame f)
 {
-super(loginFrame, true);
+   super( f, true);
 
-    setResizable(true);
+
+
   loginFrame.setLayout(new FlowLayout());
 
     loginButton.addActionListener(this);
@@ -40,11 +40,28 @@ super(loginFrame, true);
     loginFrame.setSize(500,250);
 
 
-    setVisible(true);
+loginFrame.setVisible(true);
 } // end constructor
+/*
+    public static void main(String[] args) {
+JFrame f = new JFrame("hello");
+                    Login l = new Login(f);
+
+    }
+
+ */
+
+        public void actionPerformed  (ActionEvent e)
+        {
+            String option = e.getActionCommand();
+
+            switch(option)
+            {
+                case "Login": JOptionPane.showMessageDialog(null , "pass", "pass" , JOptionPane.PLAIN_MESSAGE);
 
 
-    public void actionPerformed (ActionEvent e){
+loginFrame.dispose();
+            }
 
     } // end cation performed
 

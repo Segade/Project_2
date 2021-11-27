@@ -122,7 +122,13 @@ genderGroup.add(femaleRadioButton);
                 String myMonth = (String) monthComboBox.getSelectedItem();
                 String myYear = (String)yearComboBox.getSelectedItem();
 
-                String texto = Validator.validateTeacherForm(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(),townTextField.getText(), countyTextField.getText(, myDay, myMonth, myYear,
+
+                String texto = Validator.validateTeacherForm(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(),townTextField.getText(), countyTextField.getText(), myDay, myMonth, myYear, phoneTextField.getText(), emailTextField.getText(), departmentTextField.getText());
+
+                char gender = 'X';
+if (! maleRadioButton.isSelected() && !femaleRadioButton.isSelected())
+    texto += "\nEnter a gender";
+
                 if (texto.equals("") )
                     saveTeacher();
                 else
@@ -165,6 +171,8 @@ allTeachers.add(t);
             FileOutputStream outStream = new FileOutputStream(outFile);
 
             ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+
 
             objectOutStream.writeObject(allTeachers);
 

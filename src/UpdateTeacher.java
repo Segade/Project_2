@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 
 public class UpdateTeacher extends JFrame implements ActionListener {
     JFrame updateTeacherFrame = new JFrame("Update teacher");
-    JPanel formPanel = new JPanel(new GridLayout(3,2, 5,5));
+    JPanel formPanel = new JPanel(new GridLayout(10,2, 5,5));
     JPanel buttonsPanel = new JPanel(new BorderLayout(10, 10));
     JPanel dobPanel = new JPanel(new FlowLayout());
     JPanel genderPanel = new JPanel(new FlowLayout());
@@ -27,6 +27,8 @@ JTextField searchTextField = new JTextField(10);
     JTextField townTextField = new JTextField(20);
     JTextField countyTextField = new JTextField(20);
     JTextField departmentTextField = new JTextField(25);
+    JTextField phoneTextField = new JTextField(12);
+    JTextField emailTextField = new JTextField(30);
 
     JComboBox dayComboBox = new JComboBox();
     JComboBox monthComboBox = new JComboBox();
@@ -44,6 +46,8 @@ JTextField searchTextField = new JTextField(10);
     JLabel departmentLabel = new JLabel("Department:");
     JLabel blank = new JLabel("   ");
 JLabel searchLabel = new JLabel("ID:");
+JLabel phoneLabel = new JLabel("Phone:");
+JLabel emailLabel = new JLabel("Email:");
 
 JButton searchButton = new JButton("Search");
 JButton updateButton = new JButton("Update");
@@ -54,6 +58,8 @@ JButton cancelButton = new JButton("Cancel");
     ButtonGroup genderGroup = new ButtonGroup();
 
     ArrayList<Teacher> allTeachers = new ArrayList<>();
+    Teacher t = null;
+
 
      UpdateTeacher (){
 
@@ -92,6 +98,10 @@ searchButton.addActionListener(this);
          formPanel.add(dobPanel);
          formPanel.add(genderLabel);
          formPanel.add(genderPanel);
+         formPanel.add(phoneLabel);
+         formPanel.add(phoneTextField);
+         formPanel.add(emailLabel);
+         formPanel.add(emailTextField);
          formPanel.add(departmentLabel);
          formPanel.add(departmentTextField);
 
@@ -120,7 +130,24 @@ open();
 search();
                 formPanel.setVisible(true);
 break;
+            case "Update":
+                String myDay = (String) dayComboBox.getSelectedItem();
+                String myMonth = (String) monthComboBox.getSelectedItem();
+                String myYear = (String)yearComboBox.getSelectedItem();
 
+
+                String texto = Validator.validateTeacherForm(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(),townTextField.getText(), countyTextField.getText(), myDay, myMonth, myYear, phoneTextField.getText(), emailTextField.getText(), departmentTextField.getText());
+
+                char gender = 'X';
+                if (! maleRadioButton.isSelected() && !femaleRadioButton.isSelected())
+                    texto += "\nEnter a gender";
+
+                if (texto.equals("") )
+                    saveTeacher();
+                else
+                    JOptionPane.showMessageDialog(null, texto , "Error", JOptionPane.ERROR_MESSAGE);
+
+                break;
             case "Cancel":
                 updateTeacherFrame.dispose();
         } // end switch
@@ -194,15 +221,17 @@ yearComboBox.setSelectedIndex(y);
 
     private void search (){
     String id = searchTextField.getText();
-    int y= 0;
-Teacher t = null;
-for (int x=0; x<allTeachers.size(); x++){
+    int x= 0;
+
+while (x<allTeachers.size()){
     t = allTeachers.get(x);
 
-    if (t.getId().equalsIgnoreCase(id))
+    if (t.getId().equalsIgnoreCase(id)) {
         display(t);
-
-} // end for
+        x= allTeachers.size()+1;
+    }
+x++;
+     } // end while
 
 
     } // end search
@@ -227,4 +256,67 @@ for (int x=0; x<allTeachers.size(); x++){
 
          departmentTextField.setText(t.getDepartment());
     } // end display
+
+    private void saveTeacher()
+    {
+
+        String myDay = (String) dayComboBox.getSelectedItem();
+        String myMonth = (String) monthComboBox.getSelectedItem();
+        String myYear = (String)yearComboBox.getSelectedItem();
+        GregorianCalendar dob = new GregorianCalendar(Integer.parseInt(myYear), Integer.parseInt(myMonth), Integer.parseInt(myDay));
+        String department = departmentTextField.getText();
+        char gender = 'X';
+
+        if (maleRadioButton.isSelected())
+            gender = 'M';
+        else
+            gender = 'F';
+
+
+
+        for (int x=0;x<allTeachers.size();x++){
+
+if (allTeachers.get(x).getId().equals(t.getId() )){
+    allTeachers.get(x).setName(nameTextField.getText());
+allTeachers.get(x).setSurname(surnameTextField.getText());
+allTeachers.get(x).setAddress(addressTextField.getText());
+allTeachers.get(x).setTown(townTextField.getText());
+    allTeachers.get(x).setCounty(countyTextField.getText());
+    allTeachers.get(x).setGender(gender);
+    allTeachers.get(x).setDob(dob);
+     allTeachers.get(x).setPhone(phoneTextField.getText());
+     allTeachers.get(x).setEmail(emailTextField.getText());
+
+} // end if
+    } // end while
+
+        File outFile  = new File("teachers.data");
+        try{
+            FileOutputStream outStream = new FileOutputStream(outFile);
+
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+
+
+            objectOutStream.writeObject(allTeachers);
+
+            outStream.close();
+
+
+        }
+        catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File could not be found!",
+                    "Problem Finding File!", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        }
+        JOptionPane.showMessageDialog(null, "Teacher added successfuly\n" + t, "Add success", JOptionPane.INFORMATION_MESSAGE);
+    } // end save teacher
+
+
+
 } // end class

@@ -1,4 +1,4 @@
-import javax.swing.*;
+    import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 public class Academy extends JFrame implements ActionListener{
@@ -17,51 +17,63 @@ public class Academy extends JFrame implements ActionListener{
     JMenuItem addCourseMenuItem = new JMenuItem("Add course");
     JMenuItem updateCourseMenuItem = new JMenuItem("Update/Delete course");
 
-    JMenu studentMenu = new JMenu("Students");
+            JMenu studentMenu = new JMenu("Students");
     JMenuItem addStudentMenuItem = new JMenuItem("Add student");
     JMenuItem updateStudentMenuItem = new JMenuItem("Update/Delete student");
 
     JMenuItem  MenuItem = new JMenuItem("");
 
+public boolean success;
+     public int attempts;
+
     public Academy( ){
-        Login myLogin = new Login(this );
 
-         academyFrame = new JFrame("Academy");
-        academyFrame.setSize(1000,1000);
-        academyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*
+        while (!success) {
+             Login l = new Login(this);
+attempts++;
+success = true;
+         }
+         */
 
-        FlowLayout myFlow = new FlowLayout();
-        academyFrame.setLayout(myFlow);
+    academyFrame = new JFrame("Academy");
+    academyFrame.setSize(1000, 1000);
+    academyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        exitMenuItem.addActionListener(this);
-        addTeacherMenuItem.addActionListener(this);
-        updateTeacherMenuItem.addActionListener(this);
-        addCourseMenuItem.addActionListener(this);
-        updateCourseMenuItem.addActionListener(this);
-        addStudentMenuItem.addActionListener(this);
-        updateStudentMenuItem.addActionListener(this);
+    FlowLayout myFlow = new FlowLayout();
+    academyFrame.setLayout(myFlow);
 
-
-        fileMenu.add(exitMenuItem);
-        fileMenu.setMnemonic('f');
-
-        teacherMenu.add(addTeacherMenuItem);
-        teacherMenu.add(updateTeacherMenuItem);
-
-        courseMenu.add(addCourseMenuItem);
-        courseMenu.add(updateCourseMenuItem);
-
-        studentMenu.add(addStudentMenuItem);
-        studentMenu.add(updateStudentMenuItem);
-
-        mainMenu.add(fileMenu);
-        mainMenu.add(teacherMenu);
-        mainMenu.add(courseMenu);
-        mainMenu.add(studentMenu);
+    exitMenuItem.addActionListener(this);
+    addTeacherMenuItem.addActionListener(this);
+    updateTeacherMenuItem.addActionListener(this);
+    addCourseMenuItem.addActionListener(this);
+    updateCourseMenuItem.addActionListener(this);
+    addStudentMenuItem.addActionListener(this);
+    updateStudentMenuItem.addActionListener(this);
 
 
-        academyFrame.add(mainMenu);
-         academyFrame.setVisible(true);
+    fileMenu.add(exitMenuItem);
+    fileMenu.setMnemonic('f');
+
+    teacherMenu.add(addTeacherMenuItem);
+    teacherMenu.add(updateTeacherMenuItem);
+
+    courseMenu.add(addCourseMenuItem);
+    courseMenu.add(updateCourseMenuItem);
+
+    studentMenu.add(addStudentMenuItem);
+    studentMenu.add(updateStudentMenuItem);
+
+    mainMenu.add(fileMenu);
+    mainMenu.add(teacherMenu);
+    mainMenu.add(courseMenu);
+    mainMenu.add(studentMenu);
+
+
+    academyFrame.add(mainMenu);
+    academyFrame.setVisible(true);
+
+
     } // end constructor
 
     public static void main(String[] args) {
