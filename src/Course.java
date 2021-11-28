@@ -80,13 +80,13 @@ else
     public String toString() {
  String texto = "Course Details \nID: " + getId() + ", Name: " + getName() +
          "\nPrice: " + getPrice() + ", Payment: " + getPay()+
-          "\nTeacher: " + getTeacher();
+          "\nTeacher: " + getTeacher() + "\nStudents details:\n";
 
 
  if (student != null){
      for (int x=0; x< student.length;x++)
          if (student[x] != null)
- texto += "student name";
+ texto += student[x].getName() + ", " + student[x].getSurname() +"\n";
  } else
      texto += "\nThere is no student";
 
