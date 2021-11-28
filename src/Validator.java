@@ -26,7 +26,35 @@ public class Validator {
         if (!checkDate(myDay, myMonth, myYear))
             error += "\nEnter a valid Date of Birth";
         return error;
-    } // end validate form
+    } // end validate form teacher
+
+
+    public static   String validateStudentForm(String name, String surname, String address, String town, String county, String myDay, String myMonth, String myYear, String phone, String email){
+        String error = "";
+
+
+        if (name.equals("") ||  !isLetter(name))
+            error ="Enter a valid name";
+
+        if (surname.equals("") || !isLetter(surname))
+            error +="Enter a valid surname";
+
+        if (address.equals(""))
+            error +="\nEnter a address";
+
+        if (town.equals("") || !isLetter(town))
+            error +="\nEnter a valid town";
+
+        if (county.equals("") || !isLetter(county))
+            error +="\nEnter a county";
+
+
+        if (!checkDate(myDay, myMonth, myYear))
+            error += "\nEnter a valid Date of Birth";
+        return error;
+    } // end validate form student
+
+
 
 
     public static  boolean isLetter(String enter){

@@ -15,6 +15,7 @@ public class Academy extends JFrame implements ActionListener{
 
     JMenu courseMenu = new JMenu("Courses");
     JMenuItem addCourseMenuItem = new JMenuItem("Add course");
+    JMenuItem assignMenuItem = new JMenuItem("Assign student");
     JMenuItem updateCourseMenuItem = new JMenuItem("Update/Delete course");
 
             JMenu studentMenu = new JMenu("Students");
@@ -47,6 +48,7 @@ success = true;
     addTeacherMenuItem.addActionListener(this);
     updateTeacherMenuItem.addActionListener(this);
     addCourseMenuItem.addActionListener(this);
+    assignMenuItem.addActionListener(this);
     updateCourseMenuItem.addActionListener(this);
     addStudentMenuItem.addActionListener(this);
     updateStudentMenuItem.addActionListener(this);
@@ -59,6 +61,7 @@ success = true;
     teacherMenu.add(updateTeacherMenuItem);
 
     courseMenu.add(addCourseMenuItem);
+    courseMenu.add(assignMenuItem);
     courseMenu.add(updateCourseMenuItem);
 
     studentMenu.add(addStudentMenuItem);
@@ -103,9 +106,11 @@ if (exit == JOptionPane.YES_OPTION)
 
              case "Add course": AddCourse addCourse = new AddCourse();
                  break;
-
-            //case "Update/Delete course": UpdateCourse updateCourse = new UpdateCourse();
-//                break;
+            case "Assign student": AssignStudent assignStudent = new AssignStudent();
+break;
+             case "Add student":
+             AddStudent addStudent = new  AddStudent();
+                 break;
         } // end switch
 
 

@@ -5,8 +5,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class AddTeacher extends JFrame implements ActionListener{
-    JFrame addTeacherFrame = new JFrame("Add teacher");
+public class AddStudent extends JFrame implements ActionListener{
+    JFrame addStudentFrame = new JFrame("Add teacher");
     JPanel formPanel = new JPanel(new GridLayout(10,2, 5,5));
     JPanel buttonsPanel = new JPanel(new BorderLayout(10, 10));
     JPanel dobPanel = new JPanel(new FlowLayout());
@@ -23,7 +23,6 @@ public class AddTeacher extends JFrame implements ActionListener{
     JLabel slashLabel1  = new JLabel(" / ");
     JLabel slashLabel2 = new JLabel(" / ");
     JLabel genderLabel = new JLabel("Gender:");
-    JLabel departmentLabel = new JLabel("Department:");
     JLabel blank = new JLabel("   ");
     JLabel phoneLabel = new JLabel("Phone:");
     JLabel emailLabel = new JLabel("Email:");
@@ -33,7 +32,6 @@ public class AddTeacher extends JFrame implements ActionListener{
     JTextField addressTextField = new JTextField(40);
     JTextField townTextField = new JTextField(20);
     JTextField countyTextField = new JTextField(20);
-    JTextField departmentTextField = new JTextField(25);
     JTextField phoneTextField = new JTextField(12);
     JTextField emailTextField = new JTextField(30);
 
@@ -50,13 +48,13 @@ public class AddTeacher extends JFrame implements ActionListener{
 
 
 
-    ArrayList<Teacher> allTeachers = new ArrayList<>();
+    ArrayList<Student> allStudents = new ArrayList<>();
     int size = 0;
-    AddTeacher ()
+    AddStudent ()
     {
 
-        addTeacherFrame.setSize(500,500);
-        addTeacherFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addStudentFrame.setSize(500,500);
+        addStudentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setLayout(layout);
 
@@ -67,10 +65,10 @@ public class AddTeacher extends JFrame implements ActionListener{
         dobPanel.add(monthComboBox);
         dobPanel.add(slashLabel2);
         dobPanel.add(yearComboBox);
-genderGroup.add(maleRadioButton);
-genderGroup.add(femaleRadioButton);
+        genderGroup.add(maleRadioButton);
+        genderGroup.add(femaleRadioButton);
         genderPanel.add(maleRadioButton);
-                genderPanel.add(femaleRadioButton);
+        genderPanel.add(femaleRadioButton);
 
         formPanel.add(nameLabel);
         formPanel.add(nameTextField);
@@ -86,8 +84,6 @@ genderGroup.add(femaleRadioButton);
         formPanel.add(dobPanel);
         formPanel.add(genderLabel);
         formPanel.add(genderPanel);
-        formPanel.add(departmentLabel);
-        formPanel.add(departmentTextField);
         formPanel.add(phoneLabel);
         formPanel.add(phoneTextField);
         formPanel.add(emailLabel);
@@ -101,10 +97,10 @@ genderGroup.add(femaleRadioButton);
         buttonsPanel.add(addButton, BorderLayout.EAST);
         buttonsPanel.add(cancelButton, BorderLayout.WEST);
 
-        addTeacherFrame.add(formPanel, BorderLayout.CENTER);
-        addTeacherFrame.add(buttonsPanel, BorderLayout.SOUTH);
+        addStudentFrame.add(formPanel, BorderLayout.CENTER);
+        addStudentFrame.add(buttonsPanel, BorderLayout.SOUTH);
         formPanel.setVisible(true);
-        addTeacherFrame.setVisible(true);
+        addStudentFrame.setVisible(true);
 //pack();
         open();
     } // end constructor
@@ -123,28 +119,28 @@ genderGroup.add(femaleRadioButton);
                 String myYear = (String)yearComboBox.getSelectedItem();
 
 
-                String texto = Validator.validateTeacherForm(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(),townTextField.getText(), countyTextField.getText(), myDay, myMonth, myYear, phoneTextField.getText(), emailTextField.getText(), departmentTextField.getText());
+                String texto = Validator.validateStudentForm(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(),townTextField.getText(), countyTextField.getText(), myDay, myMonth, myYear, phoneTextField.getText(), emailTextField.getText() );
 
                 char gender = 'X';
-if (! maleRadioButton.isSelected() && !femaleRadioButton.isSelected())
-    texto += "\nEnter a gender";
+                if (! maleRadioButton.isSelected() && !femaleRadioButton.isSelected())
+                    texto += "\nEnter a gender";
 
                 if (texto.equals("") )
-                    saveTeacher();
+                    saveStudent();
                 else
                     JOptionPane.showMessageDialog(null, texto , "Error", JOptionPane.ERROR_MESSAGE);
                 break;
             case "Cancel":
-  addTeacherFrame.dispose();
+                addStudentFrame.dispose();
                 break;
 
         } // end switch
 
     } //end actionperformed
 
-    private void saveTeacher()
+    private void saveStudent()
     {
-        String id = "TEA" + String.format("%03d", (size+1));
+        String id = "STU" + String.format("%05d", (size+1));
         String name = nameTextField.getText();
         String surname = surnameTextField.getText();
         String address = addressTextField.getText();
@@ -155,18 +151,17 @@ if (! maleRadioButton.isSelected() && !femaleRadioButton.isSelected())
         String myDay = (String) dayComboBox.getSelectedItem();
         String myMonth = (String) monthComboBox.getSelectedItem();
         String myYear = (String)yearComboBox.getSelectedItem();
-         GregorianCalendar dob = new GregorianCalendar(Integer.parseInt(myYear), Integer.parseInt(myMonth), Integer.parseInt(myDay));
-        String department = departmentTextField.getText();
+        GregorianCalendar dob = new GregorianCalendar(Integer.parseInt(myYear), Integer.parseInt(myMonth), Integer.parseInt(myDay));
         char gender = 'X';
 
-if (maleRadioButton.isSelected())
-    gender = 'M';
-else
-    gender = 'F';
+        if (maleRadioButton.isSelected())
+            gender = 'M';
+        else
+            gender = 'F';
 
-        Teacher t = new Teacher(id, name, surname, address, town, county, dob, email, phone, gender, department );
-allTeachers.add(t);
-        File outFile  = new File("teachers.data");
+        Student t = new Student(id, name, surname, address, town, county, dob, email, phone, gender );
+        allStudents.add(t);
+        File outFile  = new File("students.data");
         try{
             FileOutputStream outStream = new FileOutputStream(outFile);
 
@@ -174,7 +169,7 @@ allTeachers.add(t);
 
 
 
-            objectOutStream.writeObject(allTeachers);
+            objectOutStream.writeObject(allStudents);
 
             outStream.close();
         }
@@ -188,8 +183,8 @@ allTeachers.add(t);
             JOptionPane.showMessageDialog(null,"File could not be written!",
                     "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
         }
-JOptionPane.showMessageDialog(null, "Teacher added successfuly\n" + t, "Add success", JOptionPane.INFORMATION_MESSAGE);
-    } // end save teacher
+        JOptionPane.showMessageDialog(null, "Student added successfuly\n" + t, "Add success", JOptionPane.INFORMATION_MESSAGE);
+    } // end save student
 
 
 
@@ -219,14 +214,14 @@ JOptionPane.showMessageDialog(null, "Teacher added successfuly\n" + t, "Add succ
         try {
             //JB removed code here which reads a file containing staff data
 
-            File file = new File("teachers.data"); //added by JB
+            File file = new File("students.data"); //added by JB
 
             if(file.exists()) { //this if-else added by JB
 
                 //the 3 lines below are DJ's
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
-                allTeachers = (ArrayList<Teacher>) is.readObject();
-                size =allTeachers.size();
+                allStudents = (ArrayList<Student>) is.readObject();
+                size =allStudents.size();
                 JOptionPane.showMessageDialog(null, "", ""+size, JOptionPane.PLAIN_MESSAGE);
                 is.close();
 
