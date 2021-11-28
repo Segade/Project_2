@@ -74,10 +74,9 @@ switch(option){
     case "Add":
          if (!searchTeacher()){
          int opt = JOptionPane.showConfirmDialog(null, "The teacher ID entered does not correspond with anyy teacher.\nDo you want to save this course with no teacher?");
-         if (opt == JOptionPane.YES_OPTION)
-             option = "";
-         } // end if search teacher
 
+             JOptionPane.showMessageDialog(null, "Teacher not found\nPlease, enter a correct teacher ID", "Teacher not found", JOptionPane.PLAIN_MESSAGE);
+         }else  // end if search teacher
         saveCourse();
         break;
     case "Cancel":
