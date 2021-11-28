@@ -3,7 +3,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.io.Serializable;
 
-public class Person implements Serializable {
+public abstract class Person implements Serializable {
     private String id;
 
     private String name;
