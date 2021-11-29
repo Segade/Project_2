@@ -25,6 +25,8 @@ public class AssignStudent extends JFrame implements ActionListener {
     Course c= null;
     Student s = null;
     int size = 0;
+    int positionStudent;
+    int positionCourse ;
 
 
     public AssignStudent() {
@@ -55,8 +57,12 @@ switch (option){
 
         if (searchCourse()){
 if (searchStudent()){
-assignStudent();
-JOptionPane.showMessageDialog(null, c.toString(), "Good", JOptionPane.PLAIN_MESSAGE);
+
+    if (assignStudent() ) {
+
+        saveCourse();
+         JOptionPane.showMessageDialog(null, allCourses.get(positionCourse).toString(), "Assign success", JOptionPane.PLAIN_MESSAGE );
+    } // end if assign
             } else // if search student
             JOptionPane.showMessageDialog(null, "Student not found", "Student not found", JOptionPane.PLAIN_MESSAGE);
     } else // if search course
@@ -150,6 +156,7 @@ break;
 
             if (c.getId().equalsIgnoreCase(idCourse)) {
                 pass = true;
+                positionCourse = x;
                 x = allCourses.size() +2;
             }
             x++;
@@ -162,13 +169,14 @@ break;
     private  boolean searchStudent (){
         boolean pass = false;
         String idStudent = studentTextField.getText();
-        int x= 0;
+ int x=0;
 
-        while (x<allCourses.size()){
+        while (x<allStudents.size()){
             s = allStudents.get(x);
 
             if (s.getId().equalsIgnoreCase(idStudent)) {
                 pass = true;
+                positionStudent = x;
                 x = allStudents.size() +2;
             }
             x++;
@@ -178,25 +186,65 @@ break;
     } // end search student
 
 
-    public void assignStudent() {
+    public boolean assignStudent() {
+        boolean pass = false;
+
         if (c.getStudent() == null) {
             Student student[] = new Student[30];
             student[0] = s;
             c.setStudent(student);
         } else {
             int x = 0;
-            while (x < c.getStudent().length) {
+            while (x < c.getStudent().length && !pass) {
                 if (c.getStudent()[x] == null){
                     Student student[] = c.getStudent();
 student[x] = s;
-c.setStudent(student);
-x = c.getStudent().length;
-                }else // if there is a blank space
-                JOptionPane.showMessageDialog(null, "This course is full.\nYou cannot assign more students", "Course full", JOptionPane.PLAIN_MESSAGE);
 
+allCourses.get(positionCourse).setStudent(student);
+x = c.getStudent().length;
+pass = true;
+
+                } else if (c.getStudent()[x].getId().equalsIgnoreCase(studentTextField.getText())   )
+                {
+                    x = c.getStudent().length + 2;
+                    JOptionPane.showMessageDialog(null, "This student already is assigned to this course", "already assigned", JOptionPane.ERROR_MESSAGE);
+                } // if c student id is = student text filed
+
+x++;
             } // end while
+if (x == c.getStudent().length)
+    JOptionPane.showMessageDialog(null, "This course is full", "Full", JOptionPane.ERROR_MESSAGE);
         } // if student array is null
+
+    return pass;
     } // end method assign student
+
+
+    private void saveCourse()
+    {
+
+        File outFile  = new File("courses.data");
+        try{
+            FileOutputStream outStream = new FileOutputStream(outFile);
+
+            ObjectOutputStream objectOutStream = new ObjectOutputStream(outStream);
+
+            objectOutStream.writeObject(allCourses);
+
+            outStream.close();
+        }
+        catch(FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File could not be found!",
+                    "Problem Finding File!", JOptionPane.ERROR_MESSAGE);
+        }
+        catch(IOException ioe){
+            System.out.println(ioe.getStackTrace());
+            JOptionPane.showMessageDialog(null,"File could not be written!",
+                    "Problem Writing to File!",JOptionPane.ERROR_MESSAGE);
+        }
+
+    } // end save course
 
 
 }// end cclass
