@@ -74,22 +74,22 @@ break;
 
     public void open() {
         try {
-            //JB removed code here which reads a file containing staff data
+
 
             File file = new File("courses.data"); //added by JB
 
             if(file.exists()) { //this if-else added by JB
 
-                //the 3 lines below are DJ's
+
                 ObjectInputStream is = new ObjectInputStream(new FileInputStream(file));
                 allCourses = (ArrayList<Course>) is.readObject();
                 size =allCourses.size();
                 JOptionPane.showMessageDialog(null, "", ""+size, JOptionPane.PLAIN_MESSAGE);
                 is.close();
 
-                //JB removed code here which reads a file containing sales data
 
-//                JOptionPane.showMessageDialog(null, file.getName() + " file loaded into the system", "Open", JOptionPane.INFORMATION_MESSAGE);
+
+ //                JOptionPane.showMessageDialog(null, file.getName() + " file loaded into the system", "Open", JOptionPane.INFORMATION_MESSAGE);
             }
             else{ //This code added by JB
                 file.createNewFile();
