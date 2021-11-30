@@ -34,6 +34,7 @@ public class AssignStudent extends JFrame implements ActionListener {
         assignStudentFrame.setLayout(layout);
 
         assignButton.addActionListener(this);
+        unassignButton.addActionListener(this);
 
         formPanel.add(courseLabel);
         formPanel.add(courseTextField);
@@ -68,6 +69,20 @@ if (searchStudent()){
     } else // if search course
     JOptionPane.showMessageDialog(null, "Course not found", "Course not found", JOptionPane.PLAIN_MESSAGE);
 break;
+
+    case "Unassign":
+ if (searchCourse()) {
+
+     if (searchStudent()) {
+
+         if (unassignStudent()) {
+             saveCourse();
+             JOptionPane.showMessageDialog(null, allCourses.get(positionCourse).toString(), "Unassign success", JOptionPane.PLAIN_MESSAGE);
+         }
+     } else // if student
+         JOptionPane.showMessageDialog(null, "Student not found", "Student not found", JOptionPane.PLAIN_MESSAGE);
+ } else // if course
+     JOptionPane.showMessageDialog(null, "Course not found", "Course not found", JOptionPane.PLAIN_MESSAGE);
 
 } // end switch
     } // end action performed
@@ -218,6 +233,38 @@ if (x == c.getStudent().length)
 
     return pass;
     } // end method assign student
+
+
+
+    public boolean unassignStudent() {
+        boolean pass = false;
+
+        if (c.getStudent() == null) {
+            JOptionPane.showMessageDialog(null, "This course is empty", "Course empty", JOptionPane.PLAIN_MESSAGE);
+
+        } else {
+            int x = 0;
+            while (x < c.getStudent().length && !pass) {
+if (c.getStudent()[x] != null )
+                if (c.getStudent()[x].getId().equalsIgnoreCase(studentTextField.getText())   )
+                {
+                    Student student[] = c.getStudent();
+                    student[x] = null;
+                    allCourses.get(positionCourse).setStudent(student);
+pass = true;
+                    x = c.getStudent().length + 2;
+                    JOptionPane.showMessageDialog(null, "This student already is assigned to this course", "already assigned", JOptionPane.ERROR_MESSAGE);
+                } // if c student id is = student text fieled
+                 x++;
+                //JOptionPane.showMessageDialog(null, ""+x, ""+x, JOptionPane.PLAIN_MESSAGE);
+            } // end while
+
+              if (x == c.getStudent().length)
+                JOptionPane.showMessageDialog(null, "This student is not in this course", "Student not assigned", JOptionPane.ERROR_MESSAGE);
+        } // if student array is null
+
+        return pass;
+    } // end method unassign student
 
 
     private void saveCourse()
